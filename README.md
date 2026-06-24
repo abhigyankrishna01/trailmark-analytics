@@ -9,9 +9,15 @@ journeys**, and a **click heatmap**.
 > **Dashboard:** https://trailmark-analytics.vercel.app/dashboard
 > **Heatmap:** https://trailmark-analytics.vercel.app/dashboard/heatmap
 
-<!-- Add a screenshot / GIF here once deployed:
-![Dashboard](docs/dashboard.png)
--->
+![Trailmark walkthrough](docs/demo.gif)
+
+<sub>Demo store → live sessions list → user-journey timeline → click heatmap.</sub>
+
+### Screenshots
+
+| Sessions dashboard | User journey | Click heatmap |
+| :---: | :---: | :---: |
+| ![Sessions](docs/dashboard.png) | ![Journey](docs/journey.png) | ![Heatmap](docs/heatmap.png) |
 
 ---
 
