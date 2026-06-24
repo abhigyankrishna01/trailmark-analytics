@@ -35,6 +35,9 @@ function drawHeatmap(
   ctx.clearRect(0, 0, w, h);
   if (clicks.length === 0) return;
 
+  // Radius scales with canvas size so blobs blend on any screen.
+  const radius = Math.max(RADIUS, Math.round(w * 0.05));
+
   // 1) Paint grayscale alpha blobs; overlaps accumulate alpha => intensity.
   for (const c of clicks) {
     const xPct = c.pageX / c.pageWidth;
@@ -43,26 +46,35 @@ function drawHeatmap(
     const x = xPct * w;
     const y = yPct * h;
 
-    const g = ctx.createRadialGradient(x, y, 0, x, y, RADIUS);
-    g.addColorStop(0, "rgba(0,0,0,0.5)");
+    const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    g.addColorStop(0, "rgba(0,0,0,0.4)");
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;
     ctx.beginPath();
-    ctx.arc(x, y, RADIUS, 0, Math.PI * 2);
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  // 2) Colorize: map accumulated alpha to the cool->warm ramp.
+  // 2) Find the peak accumulated alpha so we can normalize: the densest
+  //    cluster always reads as "hot" (red) and sparse areas stay cool (blue),
+  //    regardless of how many total clicks there are.
   const img = ctx.getImageData(0, 0, w, h);
   const data = img.data;
+  let maxAlpha = 1;
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] > maxAlpha) maxAlpha = data[i];
+  }
+
+  // 3) Colorize: map normalized intensity to the cool->warm ramp.
   for (let i = 0; i < data.length; i += 4) {
     const alpha = data[i + 3];
     if (alpha === 0) continue;
-    const offset = alpha * 4;
+    const intensity = Math.min(255, Math.round((alpha / maxAlpha) * 255));
+    const offset = intensity * 4;
     data[i] = ramp[offset];
     data[i + 1] = ramp[offset + 1];
     data[i + 2] = ramp[offset + 2];
-    data[i + 3] = Math.min(255, alpha + 40);
+    data[i + 3] = Math.min(255, alpha + 60);
   }
   ctx.putImageData(img, 0, 0);
 }

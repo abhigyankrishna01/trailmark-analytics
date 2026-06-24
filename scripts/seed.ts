@@ -48,22 +48,34 @@ function makeSession(startOffsetMin: number) {
     });
     t += rand(2000, 8000);
 
-    const clickCount = rand(2, 7);
+    const clickCount = rand(8, 16);
     for (let i = 0; i < clickCount; i++) {
-      // Cluster clicks toward a few hotspots (hero CTA, cards, banner).
+      // Cluster clicks tightly around a few hotspots (hero CTA, cards, banner)
+      // with weighting, so dense areas overlap and read "hot" on the heatmap.
       const hotspots = [
-        { x: 0.2, y: 0.18 },
-        { x: 0.3, y: 0.42 },
-        { x: 0.6, y: 0.42 },
-        { x: 0.8, y: 0.66 },
-        { x: 0.5, y: 0.85 },
+        { x: 0.2, y: 0.17, w: 5 }, // hero CTA — busiest
+        { x: 0.3, y: 0.4, w: 3 },
+        { x: 0.6, y: 0.4, w: 3 },
+        { x: 0.82, y: 0.64, w: 2 }, // flash-sale button
+        { x: 0.5, y: 0.84, w: 2 },
       ];
-      const hs = hotspots[rand(0, hotspots.length - 1)];
+      const total = hotspots.reduce((s, h) => s + h.w, 0);
+      let r = Math.random() * total;
+      let hs = hotspots[0];
+      for (const cand of hotspots) {
+        r -= cand.w;
+        if (r <= 0) {
+          hs = cand;
+          break;
+        }
+      }
+      // tight gaussian-ish jitter so clicks pile up
+      const jitter = () => (Math.random() + Math.random() - 1) * 0.035;
       const pageX = Math.round(
-        Math.max(0, Math.min(1, hs.x + (Math.random() - 0.5) * 0.12)) * PAGE_W
+        Math.max(0, Math.min(1, hs.x + jitter())) * PAGE_W
       );
       const pageY = Math.round(
-        Math.max(0, Math.min(1, hs.y + (Math.random() - 0.5) * 0.1)) * PAGE_H
+        Math.max(0, Math.min(1, hs.y + jitter())) * PAGE_H
       );
       events.push({
         sessionId,
