@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaCart — Demo Store</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #141a2e;
+        --panel-2: #1b2238;
+        --border: #273150;
+        --text: #e7ecf5;
+        --muted: #9aa6c2;
+        --accent: #6d8bff;
+        --accent-2: #38d6b0;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(1200px 600px at 70% -10%, #16203f 0%, transparent 60%), var(--bg);
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+      a { color: var(--accent); text-decoration: none; }
+      .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+      header {
+        position: sticky; top: 0; z-index: 10;
+        background: rgba(11, 16, 32, 0.85);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        display: flex; align-items: center; gap: 28px;
+        height: 64px;
+      }
+      .brand { font-weight: 700; font-size: 20px; letter-spacing: -0.3px; }
+      .brand span { color: var(--accent-2); }
+      .nav a.link { color: var(--muted); font-weight: 500; }
+      .nav a.link:hover { color: var(--text); }
+      .nav .spacer { flex: 1; }
+      .btn {
+        display: inline-block; cursor: pointer;
+        background: linear-gradient(180deg, var(--accent), #5570e6);
+        color: white; border: none; border-radius: 10px;
+        padding: 10px 18px; font-weight: 600; font-size: 14px;
+        box-shadow: 0 6px 18px rgba(109, 139, 255, 0.35);
+      }
+      .btn.ghost {
+        background: var(--panel-2); color: var(--text);
+        border: 1px solid var(--border); box-shadow: none;
+      }
+
+      .hero {
+        padding: 72px 0 48px;
+        display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+      }
+      .hero h1 { font-size: 44px; line-height: 1.1; margin: 0 0 16px; letter-spacing: -1px; }
+      .hero p { color: var(--muted); font-size: 18px; margin: 0 0 28px; }
+      .hero-art {
+        height: 280px; border-radius: 18px; border: 1px solid var(--border);
+        background:
+          radial-gradient(400px 200px at 30% 20%, rgba(56,214,176,0.25), transparent 60%),
+          radial-gradient(400px 220px at 80% 80%, rgba(109,139,255,0.3), transparent 60%),
+          var(--panel);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 64px;
+      }
+
+      section { padding: 28px 0; }
+      h2 { font-size: 26px; margin: 0 0 20px; letter-spacing: -0.4px; }
+
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .card {
+        background: var(--panel); border: 1px solid var(--border);
+        border-radius: 14px; padding: 20px; transition: transform .12s, border-color .12s;
+      }
+      .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+      .card .thumb {
+        height: 130px; border-radius: 10px; margin-bottom: 14px;
+        display: flex; align-items: center; justify-content: center; font-size: 44px;
+      }
+      .card h3 { margin: 0 0 6px; font-size: 17px; }
+      .card .price { color: var(--accent-2); font-weight: 700; }
+      .card .muted { color: var(--muted); font-size: 13px; }
+      .card-actions { margin-top: 14px; display: flex; gap: 10px; }
+
+      .banner {
+        margin: 30px 0; padding: 28px; border-radius: 16px;
+        background: linear-gradient(120deg, rgba(109,139,255,0.18), rgba(56,214,176,0.12));
+        border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      }
+      .banner h3 { margin: 0 0 6px; font-size: 22px; }
+      .banner p { margin: 0; color: var(--muted); }
+
+      .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .feature { padding: 18px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--border); }
+      .feature .ico { font-size: 28px; margin-bottom: 8px; }
+      .feature h4 { margin: 0 0 4px; }
+      .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+
+      footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 28px 0; color: var(--muted); }
+      .note {
+        margin: 14px 0 0; font-size: 13px; color: var(--muted);
+        background: var(--panel-2); border: 1px dashed var(--border);
+        border-radius: 10px; padding: 12px 14px;
+      }
+      @media (max-width: 820px) {
+        .hero { grid-template-columns: 1fr; }
+        .grid, .features { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav">
+        <div class="brand">Nova<span>Cart</span></div>
+        <a class="link" href="#shop">Shop</a>
+        <a class="link" href="#deals">Deals</a>
+        <a class="link" href="demo.html?page=about">About</a>
+        <a class="link" href="demo.html?page=contact">Contact</a>
+        <span class="spacer"></span>
+        <a class="btn ghost" href="/dashboard">Open Dashboard →</a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="hero">
+        <div>
+          <h1>Shop smarter.<br />We watch the clicks.</h1>
+          <p>
+            This is a demo storefront wired to the Trailmark tracking script.
+            Click around — every click and page view is recorded and shows up live
+            in the analytics dashboard.
+          </p>
+          <button class="btn" id="cta-shop">Start shopping</button>
+          <a class="btn ghost" href="/dashboard/heatmap" style="margin-left:10px">View heatmap</a>
+          <p class="note">
+            Tip: scroll down and click buttons all over the page, then open the
+            <a href="/dashboard">dashboard</a> in another tab to watch your session appear.
+          </p>
+        </div>
+        <div class="hero-art">🛒</div>
+      </section>
+
+      <section id="shop">
+        <h2>Featured products</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#1f2a4d,#2a3b6e)">🎧</div>
+            <h3>Aurora Headphones</h3>
+            <div class="muted">Noise-cancelling, 40h battery</div>
+            <div class="price">$149</div>
+            <div class="card-actions">
+              <button class="btn">Add to cart</button>
+              <button class="btn ghost">Details</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#142e2a,#1d4d43)">⌚</div>
+            <h3>Pulse Smartwatch</h3>
+            <div class="muted">Heart rate + GPS</div>
+            <div class="price">$229</div>
+            <div class="card-actions">
+              <button class="btn">Add to cart</button>
+              <button class="btn ghost">Details</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#2e1f3d,#4d2a5e)">📷</div>
+            <h3>Lumen Camera</h3>
+            <div class="muted">4K, compact mirrorless</div>
+            <div class="price">$499</div>
+            <div class="card-actions">
+              <button class="btn">Add to cart</button>
+              <button class="btn ghost">Details</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="deals">
+        <div class="banner">
+          <div>
+            <h3>⚡ Flash sale — 24 hours only</h3>
+            <p>Extra 20% off checkout on everything above. Limited stock.</p>
+          </div>
+          <button class="btn" id="cta-deal">Grab the deal</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>More gear</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#3d2f1f,#5e472a)">⌨️</div>
+            <h3>Mecha Keyboard</h3>
+            <div class="muted">Hot-swap, RGB</div>
+            <div class="price">$89</div>
+            <div class="card-actions"><button class="btn">Add to cart</button></div>
+          </div>
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#1f3d3a,#2a5e58)">🖱️</div>
+            <h3>Glide Mouse</h3>
+            <div class="muted">Ultralight, wireless</div>
+            <div class="price">$59</div>
+            <div class="card-actions"><button class="btn">Add to cart</button></div>
+          </div>
+          <div class="card">
+            <div class="thumb" style="background:linear-gradient(135deg,#2f1f3d,#472a5e)">🔊</div>
+            <h3>Boom Speaker</h3>
+            <div class="muted">Waterproof, 24h play</div>
+            <div class="price">$119</div>
+            <div class="card-actions"><button class="btn">Add to cart</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why NovaCart</h2>
+        <div class="features">
+          <div class="feature"><div class="ico">🚚</div><h4>Free shipping</h4><p>On all orders over $50, no code needed.</p></div>
+          <div class="feature"><div class="ico">↩️</div><h4>30-day returns</h4><p>Changed your mind? Send it back, free.</p></div>
+          <div class="feature"><div class="ico">🔒</div><h4>Secure checkout</h4><p>Encrypted payments, every time.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="banner">
+          <div>
+            <h3>Ready to see the data?</h3>
+            <p>Open the analytics dashboard to view sessions, journeys, and the click heatmap.</p>
+          </div>
+          <a class="btn" href="/dashboard">Open Dashboard →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        © 2026 NovaCart (demo). Powered by the Trailmark analytics tracker.
+      </div>
+    </footer>
+
+    <!-- The whole point: one tag, no config. -->
+    <script src="/analytics.js"></script>
+  </body>
+</html>

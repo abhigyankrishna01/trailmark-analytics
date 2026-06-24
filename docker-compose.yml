@@ -1,0 +1,16 @@
+# Optional: local MongoDB for development.
+#   docker compose up -d
+# Then set MONGODB_URI=mongodb://127.0.0.1:27017 in .env.local
+# This is a dev convenience only; production uses MongoDB Atlas.
+services:
+  mongo:
+    image: mongo:7
+    container_name: trailmark-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
