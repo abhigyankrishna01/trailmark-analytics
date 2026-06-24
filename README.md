@@ -4,9 +4,10 @@ A small full-stack analytics app that tracks user interactions (page views + cli
 on any webpage via a drop-in script, and visualizes them as **sessions**, **user
 journeys**, and a **click heatmap**.
 
-> **Live demo:** _add your Vercel URL here after deploy_ → `https://<project>.vercel.app`
-> Demo store (what you click on): `https://<project>.vercel.app/demo.html`
-> Dashboard: `https://<project>.vercel.app/dashboard`
+> **🔗 Live demo:** https://trailmark-analytics.vercel.app
+> **Demo store** (click around to generate data): https://trailmark-analytics.vercel.app/demo.html
+> **Dashboard:** https://trailmark-analytics.vercel.app/dashboard
+> **Heatmap:** https://trailmark-analytics.vercel.app/dashboard/heatmap
 
 <!-- Add a screenshot / GIF here once deployed:
 ![Dashboard](docs/dashboard.png)
