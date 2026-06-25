@@ -1,6 +1,6 @@
 # Trailmark — User Analytics
 
-A small full-stack analytics app that tracks user interactions (page views + clicks)
+A small full-stack analytics app that tracks user interaction (page views + clicks)
 on any webpage via a drop-in script, and visualizes them as **sessions**, **user
 journeys**, and a **click heatmap**.
 
